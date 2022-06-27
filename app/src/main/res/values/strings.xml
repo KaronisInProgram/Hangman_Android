@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_title">Hangman</string>
+    <string name="app_informationTitle">Player Information</string>
+    <string name="menu_information">Information</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_start">Start</string>
+    <string name="player_name">Player Name:</string>
+    <string name="player_id">Player Id:</string>
+    <string name="player_guessedWords">Guessed Words:</string>
+    <string name="player_name_hint">Anon</string>
+    <string name="player_id_hint">0123-456-789</string>
+    <string name="statistic_default_value">0</string>
+    <string name="player_id_renew">Renew PlayerId</string>
+    <string name="player_id_renew_button">Renew PlayerId</string>
+    <string name="information_save_button">Save</string>
+    <string name="questionmark">\???</string>
+</resources>
