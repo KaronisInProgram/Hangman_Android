@@ -1,5 +1,9 @@
 package de.nvborck.hangman_android.gui.search;
 
+import android.view.Gravity;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import de.nvborck.hangman.app.IGameHandler;
@@ -19,13 +23,10 @@ public class GameFoundListener implements IGameListener {
     @Override
     public void getNotified() {
         RecyclerView recyclerView = activity.findViewById(R.id.rv_opengames_list);
-
-        OpenGamesAdapter adapter = null;
-        try {
-            adapter = new OpenGamesAdapter(this.activity, this.handler.getOpenGames());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        recyclerView.setAdapter(adapter);
     }
+
+
+
+
+
 }

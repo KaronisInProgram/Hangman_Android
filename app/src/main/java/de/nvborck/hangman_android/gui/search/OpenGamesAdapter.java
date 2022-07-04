@@ -9,25 +9,31 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import net.sharksystem.asap.ASAPException;
+
+import java.io.IOException;
 import java.util.List;
 
+import de.nvborck.hangman.app.IGameHandler;
+import de.nvborck.hangman.app.IGameListener;
 import de.nvborck.hangman.network.messages.OpenGame;
 import de.nvborck.hangman_android.R;
 
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
-public class OpenGamesAdapter extends RecyclerView.Adapter<OpenGamesAdapter.ViewHolder> {
+public class OpenGamesAdapter extends RecyclerView.Adapter<OpenGamesAdapter.ViewHolder> implements IGameListener {
 
     private final Context context;
-    private final List<OpenGame> openGames;
+    private final IGameHandler handler;
 
     private ItemClickListener mClickListener;
 
-    public OpenGamesAdapter(Context context, List<OpenGame> openGames) {
+    public OpenGamesAdapter(Context context, IGameHandler handler) {
 
         this.context = context;
-        this.openGames = openGames;
+        this.handler = handler;
     }
+
 
     @NonNull
     @Override
@@ -40,15 +46,20 @@ public class OpenGamesAdapter extends RecyclerView.Adapter<OpenGamesAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.nameTextView.setText(this.openGames.get(position).getWord());
+        holder.nameTextView.setText(this.handler.getOpenGames().get(position).getWord());
     }
 
     @Override
     public int getItemCount() {
-        return openGames.size();
+        return this.handler.getOpenGames().size();
     }
 
-        // Provide a direct reference to each of the views within a data item
+    @Override
+    public void getNotified() {
+        this.notifyItemInserted(this.handler.getOpenGames().size()-1);
+    }
+
+    // Provide a direct reference to each of the views within a data item
         // Used to cache the views within the item layout for fast access
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             // Your holder should contain a member variable
@@ -62,7 +73,7 @@ public class OpenGamesAdapter extends RecyclerView.Adapter<OpenGamesAdapter.View
                 // to access the context from any ViewHolder instance.
                 super(itemView);
 
-                nameTextView = (TextView) itemView.findViewById(R.id.tv_opengame_name);
+                nameTextView =  itemView.findViewById(R.id.tv_opengame_name);
                 itemView.setOnClickListener(this);
             }
 
@@ -73,8 +84,8 @@ public class OpenGamesAdapter extends RecyclerView.Adapter<OpenGamesAdapter.View
         }
 
     // convenience method for getting data at click position
-    public OpenGame getItem(int id) {
-        return openGames.get(id);
+    private OpenGame getItem(int id) {
+        return this.handler.getOpenGames().get(id);
     }
 
     // allows clicks events to be caught
