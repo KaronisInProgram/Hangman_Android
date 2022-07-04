@@ -40,14 +40,10 @@ public class SearchActivity extends ASAPActivity {
         this.notifier = gameHandler;
 
         // Create Adapter with updates on found Open Games through ASAP-Communication
-        try {
-            adapter = new OpenGamesAdapter(this, this.handler);
-            adapter.setClickListener((View view, int position) -> showMessageOnScreen("Clicked in item " + position));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        adapter = new OpenGamesAdapter(this, this.handler);
+        adapter.setClickListener((View view, int position) -> showMessageOnScreen("Clicked in item " + position));
 
-        this.notifier.addGameListener(GameEvent.openGameFound, new GameFoundListener(this, this.handler));
+        this.notifier.addGameListener(GameEvent.openGameFound, adapter);
 
         // Configure RecyclerView
         RecyclerView recyclerView = findViewById(R.id.rv_opengames_list);
@@ -80,5 +76,23 @@ public class SearchActivity extends ASAPActivity {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
+    }
+
+    @Override
+    public void asapNotifyOnlinePeersChanged(java.util.Set<java.lang.CharSequence> peerList) {
+        super.asapNotifyOnlinePeersChanged(peerList);
+        showMessageOnScreen("Online Peers Changed");
+    }
+
+    @Override
+    public void asapNotifyBTEnvironmentStarted() {
+        super.asapNotifyBTEnvironmentStarted();
+        showMessageOnScreen("BT - Environment has Started");
+    }
+
+    @Override
+    public void asapNotifyBTEnvironmentStopped() {
+        super.asapNotifyBTEnvironmentStopped();
+        showMessageOnScreen("BT - Environment has Stopped");
     }
 }
