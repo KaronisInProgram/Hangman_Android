@@ -2,7 +2,6 @@ package de.nvborck.hangman_android.gui.game;
 
 import android.widget.TextView;
 
-import de.nvborck.hangman.app.GameEvents;
 import de.nvborck.hangman.app.IGameHandler;
 import de.nvborck.hangman.app.IGameListener;
 import de.nvborck.hangman_android.R;
@@ -18,7 +17,7 @@ public class PlayerListener implements IGameListener {
     }
 
     @Override
-    public void getNotified(GameEvents gameEvents) {
+    public void getNotified() {
         TextView activePlayer = activity.findViewById(R.id.informationActivePlayer);
         activePlayer.setText(this.handler.getActivePlayer().getName());
     }
