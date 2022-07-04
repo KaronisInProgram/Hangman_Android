@@ -14,4 +14,6 @@
     <string name="player_id_renew_button">Renew PlayerId</string>
     <string name="information_save_button">Save</string>
     <string name="questionmark">\???</string>
+
+    <string name="opengame_item_id"></string>
 </resources>

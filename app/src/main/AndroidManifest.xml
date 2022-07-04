@@ -12,7 +12,8 @@
         tools:node="replace">
         <activity
             android:name=".gui.game.GameActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".gui.menu.MainMenuActivity" />
         <activity
             android:name=".gui.search.SearchActivity"
             android:exported="false"
@@ -30,7 +31,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

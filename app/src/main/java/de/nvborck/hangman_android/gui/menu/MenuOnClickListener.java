@@ -8,6 +8,7 @@ import android.widget.Toast;
 import de.nvborck.hangman_android.R;
 import de.nvborck.hangman_android.gui.game.GameActivity;
 import de.nvborck.hangman_android.gui.information.InformationActivity;
+import de.nvborck.hangman_android.gui.search.SearchActivity;
 
 public class MenuOnClickListener implements View.OnClickListener {
 
@@ -29,8 +30,8 @@ public class MenuOnClickListener implements View.OnClickListener {
                 intent = new Intent(this.activity, GameActivity.class);
                 break;
             case R.id.search:
-                showMessageOnScreen("Search not implemented!");
-                return;
+                intent = new Intent(this.activity, SearchActivity.class);
+                break;
             case R.id.information:
                 intent = new Intent(this.activity, InformationActivity.class);
                 break;
