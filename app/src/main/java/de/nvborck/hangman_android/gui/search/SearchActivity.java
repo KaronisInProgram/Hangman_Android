@@ -21,6 +21,7 @@ import de.nvborck.hangman.data.game.GameEvent;
 import de.nvborck.hangman.data.wordprovider.SimpleWordProvider;
 import de.nvborck.hangman.network.messages.OpenGame;
 import de.nvborck.hangman_android.R;
+import de.nvborck.hangman_android.gui.game.GameOnClickListener;
 
 public class SearchActivity extends ASAPActivity {
 
@@ -39,35 +40,18 @@ public class SearchActivity extends ASAPActivity {
         this.handler = gameHandler;
         this.notifier = gameHandler;
 
-        // Create Adapter with updates on found Open Games through ASAP-Communication
-        adapter = new OpenGamesAdapter(this, this.handler);
-        adapter.setClickListener((View view, int position) -> showMessageOnScreen("Clicked in item " + position));
-
-        this.notifier.addGameListener(GameEvent.openGameFound, adapter);
-
-        // Configure RecyclerView
-        RecyclerView recyclerView = findViewById(R.id.rv_opengames_list);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        this.initControls();
 
         // Activate Bluetooth
         if(!this.isBluetoothEnvironmentOn()) {
             this.startBluetooth();
-        }
-        this.startBluetoothDiscoverable();
-        this.startBluetoothDiscovery();
-
-        // Start Searching
-        try {
-            this.handler.searchGames();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
         // add a Fake on as Test
         try {
             this.handler.addOpenGame(new OpenGame(UUID.randomUUID(), "This is a Fake One!"));
         } catch (IOException e) {
+            showMessageOnScreen("Debug: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -78,10 +62,28 @@ public class SearchActivity extends ASAPActivity {
         toast.show();
     }
 
+    private void initControls() {
+        View.OnClickListener listener = new SearchOnClickListener(this, this.handler);
+
+        findViewById(R.id.btn_search).setOnClickListener(listener);
+
+        // Create Adapter with updates on found Open Games through ASAP-Communication
+        adapter = new OpenGamesAdapter(this, this.handler);
+        adapter.setClickListener((View view, int position) -> showMessageOnScreen("Clicked in item " + position));
+        this.notifier.addGameListener(GameEvent.openGameFound, adapter);
+
+        // Configure RecyclerView
+        RecyclerView recyclerView = findViewById(R.id.rv_opengames_list);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
     @Override
     public void asapNotifyOnlinePeersChanged(java.util.Set<java.lang.CharSequence> peerList) {
         super.asapNotifyOnlinePeersChanged(peerList);
         showMessageOnScreen("Online Peers Changed");
+
+        findViewById(R.id.btn_search).setEnabled(!peerList.isEmpty());
     }
 
     @Override

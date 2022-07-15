@@ -9,11 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.sharksystem.asap.ASAPException;
-
-import java.io.IOException;
-import java.util.List;
-
 import de.nvborck.hangman.app.IGameHandler;
 import de.nvborck.hangman.app.IGameListener;
 import de.nvborck.hangman.network.messages.OpenGame;

@@ -40,8 +40,6 @@ public class GameActivity extends ASAPActivity {
         if(!this.isBluetoothEnvironmentOn()) {
             this.startBluetooth();
         }
-        this.startBluetoothDiscoverable();
-        this.startBluetoothDiscovery();
     }
 
     private void initControls() {
