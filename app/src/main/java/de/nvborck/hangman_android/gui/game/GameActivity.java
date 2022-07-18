@@ -24,7 +24,7 @@ public class GameActivity extends ASAPActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        GameHandler gameHandler =  new GameHandler(this.getASAPPeer(), new SimpleWordProvider());
+        GameHandler gameHandler =  new GameHandler(this.getASAPPeer(), new SimpleWordProvider(), LocalPlayer.getInstance().getId());
         this.handler = gameHandler;
         this.notifier = gameHandler;
 

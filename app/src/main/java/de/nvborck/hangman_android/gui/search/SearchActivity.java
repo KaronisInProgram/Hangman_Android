@@ -22,6 +22,7 @@ import de.nvborck.hangman.data.wordprovider.SimpleWordProvider;
 import de.nvborck.hangman.network.messages.OpenGame;
 import de.nvborck.hangman_android.R;
 import de.nvborck.hangman_android.gui.game.GameOnClickListener;
+import de.nvborck.hangman_android.model.player.LocalPlayer;
 
 public class SearchActivity extends ASAPActivity {
 
@@ -36,7 +37,7 @@ public class SearchActivity extends ASAPActivity {
         setContentView(R.layout.activity_search);
 
         // Initialize GameHandler
-        GameHandler gameHandler =  new GameHandler(this.getASAPPeer(), new SimpleWordProvider());
+        GameHandler gameHandler =  new GameHandler(this.getASAPPeer(), new SimpleWordProvider(), LocalPlayer.getInstance().getId());
         this.handler = gameHandler;
         this.notifier = gameHandler;
 
@@ -82,8 +83,6 @@ public class SearchActivity extends ASAPActivity {
     public void asapNotifyOnlinePeersChanged(java.util.Set<java.lang.CharSequence> peerList) {
         super.asapNotifyOnlinePeersChanged(peerList);
         showMessageOnScreen("Online Peers Changed");
-
-        findViewById(R.id.btn_search).setEnabled(!peerList.isEmpty());
     }
 
     @Override
@@ -96,5 +95,29 @@ public class SearchActivity extends ASAPActivity {
     public void asapNotifyBTEnvironmentStopped() {
         super.asapNotifyBTEnvironmentStopped();
         showMessageOnScreen("BT - Environment has Stopped");
+    }
+
+    @Override
+    public void asapNotifyBTDiscoverableStarted() {
+        super.asapNotifyBTDiscoverableStarted();
+        showMessageOnScreen("BT - Discoverable has Started");
+    }
+
+    @Override
+    public void asapNotifyBTDiscoverableStopped() {
+        super.asapNotifyBTDiscoverableStopped();
+        showMessageOnScreen("BT - Discoverable has Stopped");
+    }
+
+    @Override
+    public void asapNotifyBTDiscoveryStarted() {
+        super.asapNotifyBTDiscoveryStarted();
+        showMessageOnScreen("BT - Discovery has Started");
+    }
+
+    @Override
+    public void asapNotifyBTDiscoveryStopped() {
+        super.asapNotifyBTDiscoveryStopped();
+        showMessageOnScreen("BT - Discovery has Stopped");
     }
 }
