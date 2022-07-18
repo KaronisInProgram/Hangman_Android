@@ -1,6 +1,8 @@
 package de.nvborck.hangman_android.espresso;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -18,6 +20,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Random;
+import java.util.UUID;
+
 import de.nvborck.hangman_android.R;
 import de.nvborck.hangman_android.gui.information.InformationActivity;
 import de.nvborck.hangman_android.initialization.AsapSetupActivity;
@@ -31,25 +36,55 @@ import de.nvborck.hangman_android.initialization.AsapSetupActivity;
 @LargeTest
 public class InformationActivityTest {
 
-    //private ActivityScenario<InformationActivity> activityRule;
-
-    //@Before
-    //public void SetUp(){
-    //    activityRule = ActivityScenario.launch(InformationActivity.class);
-    //}
-
     @Rule
-    public ActivityScenarioRule<InformationActivity> activityRule = new ActivityScenarioRule<>(InformationActivity.class);
+    public ActivityScenarioRule<AsapSetupActivity> activityRule = new ActivityScenarioRule<>(AsapSetupActivity.class);
 
     @Test
     public void NavigatingToInformationViewAndChangeDataSuccessful() {
 
+        String playername = "Anna" + new Random().nextInt(500);
+
+        // Navigate to Player Information
+        onView(withId(R.id.information)).perform(click());
+
         // Change Data
-        onView(withId(R.id.editPlayerId)).perform(click());
-        onView(withId(R.id.editPlayerName)).perform(typeText("Anna"));
+        onView(withId(R.id.editPlayerName)).perform(clearText(), typeText(playername));
+
+        // Minimize Keyboard
+        pressBack();
+
+        /// Save
         onView(withId(R.id.save)).perform(click());
 
-        onView(withText("Anna")).check(matches(isDisplayed()));
+        // Navigate Back
+        pressBack();
+
+        // Navigate to Player Information
+        onView(withId(R.id.information)).perform(click());
+
+        // Assert
+        onView(withText(playername)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void NavigatingToInformationViewAndRenewIdSuccessful() {
+
+        UUID playerid;
+
+        // Navigate to Player Information
+        onView(withId(R.id.information)).perform(click());
+
+        // Change Data
+        onView(withId(R.id.editPlayerId)).perform(click());
+
+        /// Save
+        onView(withId(R.id.save)).perform(click());
+
+        // Navigate Back
+        pressBack();
+
+        // Navigate to Player Information
+        onView(withId(R.id.information)).perform(click());
     }
 
 }
